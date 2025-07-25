@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Boolean, Text, ForeignKey, DateTime
+from sqlalchemy import Column, Integer, String, Boolean, Text, ForeignKey, DateTime, Date
 from .database import Base
 from datetime import datetime
 
@@ -12,6 +12,9 @@ class FormData(Base):
     provider_name = Column(String)
     provider_last_name = Column(String)
     npi = Column(String)
+    dob = Column(Date)
+    email = Column(String)
+    phone = Column(String)
     specialty = Column(String)
     address = Column(String)
     degree_type = Column(String)
@@ -28,6 +31,7 @@ class FormData(Base):
     info_correct = Column(Boolean)
     consent_verification = Column(Boolean)
     dl_upload_id = Column(Integer, ForeignKey("form_file_uploads.id"))
+    npi_upload_id = Column(Integer, ForeignKey("form_file_uploads.id"))
     degree_upload_id = Column(Integer, ForeignKey("form_file_uploads.id"))
     training_upload_id = Column(Integer, ForeignKey("form_file_uploads.id"))
     cv_upload_id = Column(Integer, ForeignKey("form_file_uploads.id"))
@@ -58,6 +62,8 @@ class Application(Base):
     form_id = Column(String)
     name = Column(String)
     last_name = Column(String)
+    email = Column(String)
+    phone = Column(String)
     status = Column(String)
     progress = Column(Integer)
     assignee = Column(String)
@@ -68,3 +74,14 @@ class Application(Base):
     npi = Column(String)
     create_dt = Column(DateTime, default=datetime.utcnow)
     last_updt_dt = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+
+class EmailRecord(Base):
+    __tablename__ = "email_records"
+
+    id = Column(String, primary_key=True, index=True)  # UUID stored as string
+    application_id = Column(String, nullable=False)
+    recipient_email = Column(String, nullable=False)
+    subject = Column(String, nullable=False)
+    body = Column(Text, nullable=False)
+    status = Column(String, nullable=False)
+    sent_at = Column(DateTime, default=datetime.utcnow)

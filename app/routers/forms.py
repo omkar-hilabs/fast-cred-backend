@@ -1,8 +1,10 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Query
 from sqlalchemy.orm import Session
 from ..database import SessionLocal
-from ..models import FormData
+from ..models import FormData, Application
 from ..schemas import FormDataSchema
+from datetime import datetime
+from typing import Optional
 
 router = APIRouter(prefix="/api/forms", tags=["Forms"])
 
@@ -11,6 +13,9 @@ def update_form_model(db_obj: FormData, data: dict):
     db_obj.provider_name = data.get("providerName")
     db_obj.provider_last_name = data.get("providerLastName")
     db_obj.npi = data.get("npi")
+    db_obj.email = data.get("email")
+    db_obj.phone = data.get("phone")
+    db_obj.dob = datetime.strptime(data.get("dob"), '%Y-%m-%d').date()
     db_obj.specialty = data.get("specialty")
     db_obj.address = data.get("address")
     db_obj.degree_type = data.get("degreeType")
@@ -27,6 +32,7 @@ def update_form_model(db_obj: FormData, data: dict):
     db_obj.info_correct = data.get("info-correct")
     db_obj.consent_verification = data.get("consent-verification")
     db_obj.dl_upload_id = data.get("dl-upload-id")
+    db_obj.npi_upload_id = data.get("npi-upload-id")
     db_obj.degree_upload_id = data.get("degree-upload-id")
     db_obj.training_upload_id = data.get("training-upload-id")
     db_obj.cv_upload_id = data.get("cv-upload-id")
@@ -42,6 +48,9 @@ def model_to_reponse(db_obj: FormData):
         "providerName": db_obj.provider_name,
         "providerLastName": db_obj.provider_last_name,
         "npi": db_obj.npi,
+        "dob": db_obj.dob,
+        "email": db_obj.email,
+        "phone": db_obj.phone,
         "specialty": db_obj.specialty,
         "address": db_obj.address,
         "degreeType": db_obj.degree_type,
@@ -57,7 +66,8 @@ def model_to_reponse(db_obj: FormData):
         "additional_info": db_obj.additional_info,
         "info-correct": db_obj.info_correct,
         "consent-verification": db_obj.consent_verification,
-        "dl_upload_id": db_obj.dl_upload_id,
+        "dl-upload-id": db_obj.dl_upload_id,
+        "npi-upload-id": db_obj.npi_upload_id,
         "degree-upload-id": db_obj.degree_upload_id,
         "training-upload-id": db_obj.training_upload_id,
         "cv-upload-id": db_obj.cv_upload_id,
@@ -104,8 +114,13 @@ def submit_form(payload: FormDataSchema):
     return {"message": "Form submitted"}
 
 @router.get("/")
-def get_form(formId: str):
+def get_form(formId: Optional[str] = Query(None),
+    appId: Optional[str] = Query(None)):
     db: Session = SessionLocal()
+    if appId:
+        application = db.query(Application).filter(Application.id == appId).first()
+        formId = application.form_id
+
     form = db.query(FormData).filter_by(form_id=formId).first()
     db.close()
     if not form:

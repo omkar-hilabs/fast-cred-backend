@@ -9,10 +9,8 @@ DATABASE_URL = "sqlite:///./credential.db"
 engine = create_engine(DATABASE_URL, connect_args={"check_same_thread": False})
 
 applications = [
-    ("APP-001", "P12345", "410246d0-0e54-4700-9af7-d97107e22b37", "Dr. John Smith", "Completed", 100, "Alice Johnson", "Manual Entry", "National", "Cardiology", "123 Health St, Suite 100, Medville, CA, 90210", "1234567890"),
     ("APP-002", "P54321", "410246d0-0e54-4700-9af7-d97107e22b37", "Dr. Emily White", "In-Progress", 75, "Bob Williams", "CAQH Integration", "California", "Dermatology", "456 Skin Ave, Suite 200, Beverly Hills, CA, 90210", "0987654321"),
     ("APP-003", "P67890", "410246d0-0e54-4700-9af7-d97107e22b37", "Dr. Michael Brown", "In-Progress", 50, "Charlie Davis", "Email Parsing", "New York", "Neurology", "789 Brain Blvd, Thinktown, NY, 10001", "1122334455"),
-    ("APP-004", "P11223", "410246d0-0e54-4700-9af7-d97107e22b37", "Dr. Sarah Miller", "Closed", 100, "Alice Johnson", "Availity API", "Texas", "Pediatrics", "101 Child Way, Kidston, TX, 75001", "6677889900"),
     ("APP-005", "P44556", "410246d0-0e54-4700-9af7-d97107e22b37", "Dr. David Wilson", "Needs Further Review", 90, "Unassigned", "Manual Entry", "Florida", "Orthopedics", "202 Bone Ln, Jointsville, FL, 33101", "1231231234"),
     ("APP-006", "P77889", "410246d0-0e54-4700-9af7-d97107e22b37", "Dr. Jessica Garcia", "Completed", 100, "Bob Williams", "CAQH Integration", "National", "Oncology", "303 Hope Dr, Cure City, WA, 98101", "4564564567"),
     ("APP-007", "P99999", "410246d0-0e54-4700-9af7-d97107e22b37", "Dr. Robert King", "Pending Review", 10, "Unassigned", "Manual Entry", "California", "Cardiology", "1 Heart Way, Loveland, CA, 90210", "9998887776"),
@@ -21,6 +19,8 @@ applications = [
     ("APP-010", "P20202", "410246d0-0e54-4700-9af7-d97107e22b37", "Dr. Karen Hall", "Pending Review", 20, "Unassigned", "Manual Entry", "Texas", "Pediatrics", "202 Child Way, Kidston, TX, 75001", "2020202020"),
     ("APP-011", "P30303", "410246d0-0e54-4700-9af7-d97107e22b37", "Dr. Steven Young", "In-Progress", 80, "Bob Williams", "CAQH Integration", "Florida", "Orthopedics", "303 Bone Ln, Jointsville, FL, 33101", "3030303030"),
     ("APP-012", "P40404", "410246d0-0e54-4700-9af7-d97107e22b37", "Dr. James Lee", "Needs Further Review", 95, "Alice Johnson", "Email Parsing", "New York", "Cardiology", "404 Heart Way, Loveland, NY, 10001", "4040404040"),
+    ("APP-013", "P12345", "410246d0-0e54-4700-9af7-d97107e22b37", "Dr. John Smith", "Completed", 100, "Alice Johnson", "Manual Entry", "National", "Cardiology", "123 Health St, Suite 100, Medville, CA, 90210", "1234567890"),
+    ("APP-014", "P11223", "410246d0-0e54-4700-9af7-d97107e22b37", "Dr. Sarah Miller", "Closed", 100, "Alice Johnson", "Availity API", "Texas", "Pediatrics", "101 Child Way, Kidston, TX, 75001", "6677889900"),
 ]
 
 def bulk_insert():
@@ -91,22 +91,22 @@ def run_defined_sql():
             print(f"❌ Error: {e}")
 
 if __name__ == "__main__":
-    run_defined_sql()
+    # run_defined_sql()
 
-    # print("Manual DB Runner")
-    # print("1. Insert demo application data")
-    # print("2. Run SQL manually")
-    # print("3. Run SQL defined")
-    # choice = input("Choose (1 2 3): ")
+    print("Manual DB Runner")
+    print("1. Insert demo application data")
+    print("2. Run SQL manually")
+    print("3. Run SQL defined")
+    choice = input("Choose (1 2 3): ")
 
-    # if choice == "1":
-    #     bulk_insert()
-    # elif choice == "2":
-    #     run_manual_sql()
-    # elif choice == "3":
-    #     run_defined_sql()
-    # else:
-    #     print("Invalid choice.")
+    if choice == "1":
+        bulk_insert()
+    elif choice == "2":
+        run_manual_sql()
+    elif choice == "3":
+        run_defined_sql()
+    else:
+        print("Invalid choice.")
 
 
 # C:/Users/sarfaraz.ansari/AppData/Local/Programs/Python/Python313/python.exe 

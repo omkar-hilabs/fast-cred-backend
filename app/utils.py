@@ -4,7 +4,11 @@ from app.models import Application
 from app.database import SessionLocal
 from sqlalchemy.orm import Session
 
-reference_keys = ["fn", "dl", "ln", "class", "dob", "sex", "hair", "eyes", "hgt", "wgt", "exp"]
+reference_keys_map = {
+    "dl" : ["fn", "dl", "ln", "class", "dob", "sex", "hair", "eyes", "hgt", "wgt", "exp"],
+    "npi": ["npi", "Enumeration Date", "Status", "Primary Practice Address"],
+    "degree": ["degree", "college name", "year", "major"]
+}
 
 def get_db():
     db = SessionLocal()

@@ -16,6 +16,8 @@ class ApplicationCreate(BaseModel):
     form_id: str = Field(..., alias="formId")
     name: str
     last_name: str | None = Field(..., alias="providerLastName")
+    email : str
+    phone : str
     status: str
     progress: int
     assignee: str
@@ -32,3 +34,11 @@ class ApplicationResponse(ApplicationCreate):
     class Config:
         orm_mode = True
         populate_by_name = True
+
+class EmailCreate(BaseModel):
+    application_id: str
+    recipient_email: str
+    subject: str
+    body: str
+    status: str
+    sent_at: datetime
