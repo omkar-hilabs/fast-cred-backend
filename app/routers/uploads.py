@@ -3,7 +3,8 @@ from typing import Optional
 from sqlalchemy.orm import Session
 from ..models import FormFileUpload, FormData, Application
 from ..database import SessionLocal
-import os, uuid
+import os
+import ast
 
 router = APIRouter(prefix="/api/forms", tags=["Uploads"])
 UPLOAD_DIR = "uploads"
@@ -68,6 +69,18 @@ async def upload_file(
     finally:
         db.close()
 
+
+def get_progress(type):
+    if type == "npi":
+        return 100
+    elif type == "dl":
+        return 90
+    elif type == "degree":
+        return 75
+    elif type == "cv/resume":
+        return 60
+    
+
 @router.get("/upload-info")
 async def get_upload_info( uploadIds: str, formId: Optional[str] = Query(None),
     appId: Optional[str] = Query(None)):
@@ -82,8 +95,6 @@ async def get_upload_info( uploadIds: str, formId: Optional[str] = Query(None),
         FormFileUpload.form_id == formId,
         FormFileUpload.id.in_(upload_ids_list)
     ).all()
-
-    print(files)
     db.close()
 
     return {
@@ -95,7 +106,9 @@ async def get_upload_info( uploadIds: str, formId: Optional[str] = Query(None),
                 "fileExtension": file.file_extension,
                 "fileId": file.id,
                 "status": file.status,
-                "progress": 10 if file.status == "New"  else 40,  # Assuming progress is 0 for new files
+                "progress": get_progress(file.file_type),  # Assuming progress is 0 for new files
+                "pdfMatch": ast.literal_eval(file.pdf_match) if file.pdf_match else {},
+                "ocrData": ast.literal_eval(file.ocr_output) if file.ocr_output else {},
             }
             for file in files
         },
