@@ -107,8 +107,3 @@ if __name__ == "__main__":
         run_defined_sql()
     else:
         print("Invalid choice.")
-
-
-# C:/Users/sarfaraz.ansari/AppData/Local/Programs/Python/Python313/python.exe 
-# uvicorn app.main:app --reload
-# https://mailtrap.io/inboxes/3919895/messages/5008609317
