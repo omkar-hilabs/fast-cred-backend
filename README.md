@@ -1,6 +1,4 @@
-# 🔥 Next.js Starter with Firebase Studio
-
-This is a starter template for building modern web applications using **Next.js** and **Firebase Studio**. It comes preconfigured for rapid development with Firebase integration.
+# 🔥 FAST API - Python
 
 ## 🚀 Getting Started
 
