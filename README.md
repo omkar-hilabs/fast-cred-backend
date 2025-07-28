@@ -19,7 +19,7 @@ pip install -r requirements.txt
 ```
 
 
-### 3. Create a .env.local and store the following
+### 3. Create a .env and store the following
 ```bash
 OPENAI_API_KEY=your_key_here
 ```
