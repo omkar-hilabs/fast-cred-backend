@@ -53,7 +53,7 @@ def create_application(app_data: ApplicationCreate, db: Session = Depends(get_db
     print("Creating application with data:", app_data)
     now = datetime.now()
     existing_application = db.query(Application).filter(Application.form_id == app_data.form_id).first()
-    print("existing_application with data:", vars(existing_application))
+    # print("existing_application with data:", vars(existing_application))
     if existing_application:
         update_application_model(existing_application, app_data.dict(by_alias=True, exclude={"id"}))
         db.commit()
@@ -147,10 +147,10 @@ def get_ai_issues(app_id: str, db: Session = Depends(get_db)):
 
     issues.append({
         "field": "Address",
-        "issue": "ZIP code mismatch with state.",
+        "issue": "ZIP code and City mismatch.",
         "confidence": 0.95,
         "value": form_data.address,
-        "reasoning": "The ZIP code 90210 belongs to California, which matches the provided state. However, cross-referencing with USPS database suggests a potential discrepancy in the street address format."
+        "reasoning": "(1) The ZIP code 958818 (provided in Address) does not match with the address in Driving License. However, the zip code is not valid for the California state. \n (2) The city 'Hometown' does not match with the city 'Anytown' in the Driving License."
     })
 
     issues.append({
